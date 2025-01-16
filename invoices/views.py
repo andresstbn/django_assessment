@@ -1,4 +1,5 @@
-from rest_framework import viewsets, decorators, response
+from django.utils import timezone
+from rest_framework import viewsets, decorators, response, status
 from invoices.models import Invoice
 from invoices.serializers import InvoiceSerializer
 
@@ -16,4 +17,16 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         # if request.method == 'POST':
             # TODO 5: Completar la vista para marcar la factura como pagada
             # Si la factura ya está pagada, devolver un error con status 400
-        
+        if request.method == 'POST':
+            invoice = self.get_object()
+            if invoice.paid:
+                return response.Response(
+                    {'error': 'La factura ya está pagada.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Marcar la factura como pagada
+            invoice.paid = True
+            invoice.payment_date = timezone.now()
+            invoice.save()
+            return response.Response({'status': 'Factura marcada como pagada.'}, status=status.HTTP_200_OK)

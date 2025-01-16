@@ -1,4 +1,7 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.db.models import Sum
+
 
 class Invoice(models.Model):
     number = models.CharField(max_length=10)
@@ -10,12 +13,14 @@ class Invoice(models.Model):
     # TODO 1: Implementar el método total usando una expresión de agregación 
     # https://docs.djangoproject.com/en/5.1/topics/db/aggregation/
     def subtotal(self):
-        return sum(item.price for item in self.items.all()) # Eliminalo y reemplazalo por tu código
+        #return sum(item.price for item in self.items.all()) # Eliminalo y reemplazalo por tu código
+        return self.items.aggregate(total=Sum('price'))['total'] or 0
+
     
     # TODO 2: Implementar el método total usando la función sum() y una lista por comprensión
     # Se debe multiplicar el valor del item por 1.19 sólo si la cantidad es mayor a 2
     def total(self):
-        acum = 0 # Eliminalo y reemplazalo por tu código (toda la función)
+        acum = [item.price * 1.19 if item.quantity > 2 else item.price for item in self.items.all()] # Eliminalo y reemplazalo por tu código (toda la función)
         for item in self.items.all(): 
             if item.quantity > 2:
                 acum += float(item.price) * 1.19
@@ -35,7 +40,15 @@ class InvoiceItem(models.Model):
     # TODO 3: Implementar un campo retención en la fuente "withholding" con un valor por defecto de 0, 
     # que puede recibir valores con dos decimales entre 0 y 10 con un paso de 0.01
     # Implementarlo con un validador de rango
-    
+    withholding = models.DecimalField(
+        max_digits=4,
+        decimal_places=2,
+        default=0,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10)
+        ]
+    )
     def unit_price(self):
         return self.price/self.quantity
     
