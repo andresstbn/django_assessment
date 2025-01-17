@@ -1,0 +1,51 @@
+ 
+Diango. Modelos y Relaciones
+¿Qué diferencia hay entre las relaciones OneToOneField, ForeignKey y ManyToManyField
+en Django? Da un ejemplo práctico de cada una.
+
+-> OneToOneField: Es un tipo de campo en los modelos que sirve para indicar una relación
+de uno a uno con otro modelo.
+
+-> ForeignKey: es un tipo de campo en los modelos que sirve para indicar una relación de
+uno a muchos, el campo que tiene este tipo de dato, hace de llave foranea para indicar que
+puede estar muchas veces relacionado con el modelo indicado.
+
+Ejm: Un reportero puede haber escrito muchos artículos, y el artículo pertenece a un
+único reportero
+
+-> ManyToManyField: es un tipo de campo en los modelos que sirve para indicar una relación de
+muchos a muchos.
+
+Ejm: Un artículo puede ser ser muchas veces publicado y en una publicación pueden ir muchos
+artículos, sirve para saber por ejemplo: en qué publicaciones está un artículo dado y lo
+contrario: los artículos de una publicación dada.
+
+
+ 
+Django REST Framework. Serializadores
+¿Cuál es la diferencia entre los serializadores tradicionales (Serializers) y los serializadores
+basados en modelos (ModelSerializers) en Django REST Framework? ¿En qué caso
+usarías uno sobre el otro?
+
+-> Los ModelSerializers son un tipo de serializador especializado que puede ser específico
+a un modelo dado, de modo que el serializador tiene en cuenta los campos del modelo
+que va a serializar y aplica validaciones que tiene el modelo por ejemplo. Es un tipo de
+serializador mas completo para el manejo de entidades.
+
+
+
+API REST.
+Describe qué es una API REST y menciona al menos 3 principios fundamentales para que
+una API sea considerada RESTful
+
+-> Un API rest es un api que cumple un conjunto de reglas y estándares que la hacen mas fácil
+de usar y compatible. Entre los principios se puede mencionar que:
+
+1. Hace uso de los métodos GET, POST, PUT, DELETE para orden a las acciones que se pueden aplicar
+a un recurso. Esto contribuye a una interfaz uniforme.
+
+2. Usa el protocolo HTTP para intercambiar información con los clientes y por ende no tiene
+estado, es decir que el servidor entiende una petición independiente de las anteriores.
+
+3. Los recursos están identificados por un ID único .
+
